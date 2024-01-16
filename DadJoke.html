@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad Jokes</title>
+</head>
+<body>
+    <div class="Container" id="Container">
+        <h5 class="Header">Don't Laugh Challenge</h5>
+        <p class="DadJoke" id="DadJoke">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non repellat mollitia tempora, aperiam tenetur distinctio hic eaque expedita quidem rerum minima repudiandae.
+        </p>
+        <button class="FetchJokeButton" id="FetchJokeButton">Get Another Joke</button>
+    </div>
+</body>
+<style>
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        background-color: #687fdc;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height : 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    
+    .Container {
+        background-color: #fff;
+        width : 880px;
+        height : 400px;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items : center;
+        justify-content: space-evenly;
+        padding: 24px 88px;
+        
+        & .Header {
+            font-size: 16px;
+            color : gray;
+        }
+
+        & .DadJoke {
+            font-size: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        & .FetchJokeButton {
+            color : #fff;
+            background-color : #ad5df4;
+            border : 0;
+            border-radius: 8px;
+            box-shadow: 2px 2px 2px #ad5df4;
+            font-size: 16px;
+            height : 48px;
+            width : 208px;
+            padding : 8px 16px;
+            cursor: pointer;
+            transition : .4s;
+
+            &:active {
+                transform : translateY(4px);
+            }
+        }
+    }
+    
+</style>
+
+<script>
+    const fetchJokeButton = document.getElementById("FetchJokeButton");
+    const dadJokeElement = document.getElementById("DadJoke");
+
+    fetchJokeButton.addEventListener("click", async (mouseEvent) => {
+        await updateJoke();
+    });
+    
+    async function updateJoke() {
+        const dadJokeAPIResponse = await fetch("https://icanhazdadjoke.com/", {
+            headers : {
+                "Accept" : "text/plain",                
+            }
+        });
+        dadJokeElement.innerText = await dadJokeAPIResponse.text();
+    }
+
+    window.onload = async function() {
+        await updateJoke();
+    }
+</script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad Jokes</title>
+</head>
+<body>
+    <div class="Container" id="Container">
+        <div class="EventKey">
+            <label for="EventKeyDisplay">event.key</label>
+            <div class="EventKeyDisplay" name="EventKeyDisplay" id="EventKeyDisplay">Tab</div>
+        </div>
+        <div class="EventKeyCode">
+            <label for="EventKeyCodeDisplay">event.keyCode</label>
+            <div class="EventKeyCodeDisplay" name="EventKeyCodeDisplay" id="EventKeyCodeDisplay">9</div>
+        </div>
+        <div class="EventCode">
+            <label for="EventCodeDisplay">event.code</label>
+            <div class="EventCodeDisplay" name="EventCodeDisplay" id="EventCodeDisplay">Tab</div>
+        </div>
+    </div>
+</body>
+<style>
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        background-color: #d4d5da;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height : 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    
+    .Container {
+        width : 880px;
+        height : 400px;
+        border-radius: 6px;
+        display: flex;
+        align-items : center;
+        justify-content: space-evenly;
+        padding: 24px 88px;
+
+        & > div {
+            width : 128px;
+            height : 64px;
+            border : 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+            position: relative;
+            container-type: size;
+
+            & > label {
+                position: absolute;
+                top : -24px;
+                display: block;
+            }
+
+            & > div {
+                width : 100%;
+                height : 100%;
+                line-height: 100cqh;
+                font-size: 22px;
+                font-weight: 500;
+                text-align: center;
+            }
+        }
+    }
+    
+</style>
+
+<script>
+    const eventKeyDisplay = document.getElementById("EventKeyDisplay");
+    const eventKeyCodeDisplay = document.getElementById("EventKeyCodeDisplay");
+    const eventCodeDisplay = document.getElementById("EventCodeDisplay");
+
+    window.addEventListener("keypress", keyboardEvent => {
+        // console.log(keyboardEvent);
+        keyboardEvent.preventDefault();
+        const {key, keyCode, code} = keyboardEvent;
+
+        eventKeyDisplay.innerText       = key;
+        eventKeyCodeDisplay.innerText   = keyCode;
+        eventCodeDisplay.innerText      = code;
+
+    });
+
+    window.addEventListener("keyup", keyboardEvent => {
+        // console.log(keyboardEvent);
+        keyboardEvent.preventDefault();
+        const {key, keyCode, code} = keyboardEvent;
+
+        eventKeyDisplay.innerText       = key;
+        eventKeyCodeDisplay.innerText   = keyCode;
+        eventCodeDisplay.innerText      = code;
+    });
+
+    window.addEventListener("keydown", keyboardEvent => {
+        // console.log(keyboardEvent);
+        keyboardEvent.preventDefault();
+        const {key, keyCode, code} = keyboardEvent;
+
+        eventKeyDisplay.innerText       = key;
+        eventKeyCodeDisplay.innerText   = keyCode;
+        eventCodeDisplay.innerText      = code;
+    });
+</script>
+</html>

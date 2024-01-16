@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Text Effect</title>
+</head>
+<body>
+    <div class="FAQs" id="FAQs">
+        <div class="Card" id="Card">
+            <div class="Circle1"></div>
+            <div class="Circle2"></div>
+            <div class="Question">
+                <h2 class="Text">Why shouldn't we trust atoms?</h2>
+                <span class="ExpandIcon"></span>
+            </div>
+            <div class="Answer">
+                <h4 class="Text">
+                    They make up everything.
+                </h4>    
+            </div>
+        </div>
+        <div class="Card" id="Card">
+            <div class="Circle1"></div>
+            <div class="Circle2"></div>
+            <div class="Question">
+                <h2 class="Text">What do you call someone with no body and no nose?</h2>
+                <span class="ExpandIcon"></span>
+            </div>
+            <div class="Answer">
+                <h4 class="Text">
+                    Nobody Knows
+                </h4>    
+            </div>
+        </div>
+        <div class="Card" id="Card">
+            <div class="Circle1"></div>
+            <div class="Circle2"></div>
+            <div class="Question">
+                <h2 class="Text">
+                    What's the object-oriented way to become wealthy?
+                </h2>
+                <span class="ExpandIcon"></span>
+            </div>
+            <div class="Answer">
+                <h4 class="Text">
+                    Inheritance
+                </h4>
+            </div>
+        </div>
+        <div class="Card" id="Card">
+            <div class="Circle1"></div>
+            <div class="Circle2"></div>
+            <div class="Question">
+                <h2 class="Text">
+                    How many tickles does it take to tickle an octopus
+                </h2>
+                <span class="ExpandIcon"></span>
+            </div>
+            <div class="Answer">
+                <h4 class="Text">
+                    Ten-Tickles!!!
+                </h4>
+            </div>
+        </div>
+        <div class="Card Open" id="Card">
+            <div class="Circle1"></div>
+            <div class="Circle2"></div>
+            <div class="Question">
+                <h2 class="Text">
+                    What is : 1 + 1?
+                </h2>
+                <span class="ExpandIcon"></span>
+            </div>
+            <div class="Answer">
+                <h4 class="Text">
+                    Depends on who you are asking.
+                </h4>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        background-color : #e0dce3;
+        height : 100vh;
+        position: relative;
+        font-family: sans-serif;
+        text-transform: lowercase;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .FAQs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 40%;
+        height : 60%;
+    }
+
+    .Card {
+        width : 80%;
+        height: 80px;
+
+        border : 1px solid rgb(108, 103, 103);
+        border-radius: 8px;
+        
+        padding : 8px;
+        margin-top: 16px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        position: relative;
+        overflow: hidden;
+
+        &.Open {
+            background-color: #fff;
+            height : 120px;
+
+            & .Answer {
+                /* opacity: 1; */
+                display: block;
+            }
+
+            & .Question .ExpandIcon {
+                background-color: gray; 
+                &::before {
+                    content : "x";
+                    height : 100%;
+                    width : 100%;
+                    text-align: center;
+                    line-height: 100cqh;
+                    position: absolute;
+                    color: #fff;
+                    pointer-events: none;
+                }
+            }
+
+            .Circle1 {
+                position: absolute;
+                left : -5%;
+                top: -5%;
+                width : 100px;
+                height : 100px;
+                border-radius: 50%;
+                background-color: antiquewhite;
+                mix-blend-mode: multiply;
+            }
+            
+            .Circle2 {
+                position: absolute;
+                left : 5%;
+                top: 5%;
+                width : 100px;
+                height : 100px;
+                border-radius: 50%;
+                background-color: rgb(157, 239, 213);
+                mix-blend-mode: multiply;
+            }
+
+        }
+
+        &:not(.Open){
+            & .Question .ExpandIcon {
+                &::before {
+                    content : "";
+                    height : 25%;
+                    width : 25%;
+                    position: absolute;
+                    color: #fff;
+                    pointer-events: none;
+                    border-left : 2px solid black;
+                    border-bottom : 2px solid black;
+                    transform : rotate(-45deg);
+                }
+            }
+
+            .Circle1, .Circle2 {
+                display: none;
+            }
+        }
+
+    }
+
+    .Question {
+
+        height: 50%;
+        position: relative;
+
+        & .Text {
+            position: absolute;
+            display: inline-block;
+            font-size: 20px;
+            font-weight: 400;
+            text-transform: capitalize;
+            left : 12px;
+            top : 12px;
+        }
+        
+        & .ExpandIcon {
+            position: absolute;
+            display: inline-block;
+            right : 12px;
+            top : 12px;
+
+            border-radius: 50%;
+            width : 24px;
+            height : 24px;
+            font-size: larger;
+            container-type: size;
+            cursor: pointer;
+
+        }
+
+    }
+
+    .Answer {
+        height: 50%;
+        position: relative;
+        display: none;
+
+        & .Text {
+            font-size: 14px;
+            position: absolute;
+            top : 16px;
+            left : 12px;
+            font-weight: 300;
+            text-transform: capitalize;
+        }
+    }
+    
+</style>
+
+<script>
+   const faqsElement = document.getElementById("FAQs");
+
+   faqsElement.addEventListener("click", mouseEvent => {
+    const target = mouseEvent.target;
+    if(target.classList.contains("ExpandIcon")) {
+        target.closest(".Card").classList.toggle("Open");
+    }
+   });
+</script>
+</html>

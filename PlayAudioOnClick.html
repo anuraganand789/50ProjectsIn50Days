@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Text Effect</title>
+</head>
+<body>
+    <div class="AudioContainer" id="AudioContainer">
+        <div class="Audio">
+            <h4>Done With Work</h4>
+            <audio src="./music/Done_With_Work.mp3"></audio>
+        </div>
+        <div class="Audio">
+            <h4>Lazy Day</h4>
+            <audio src="./music/Lazy_Day.mp3"></audio>
+        </div>
+        <div class="Audio">
+            <h4>Rolling Hills</h4>
+            <audio src="./music/Rolling_Hills_Of_Ireland.mp3"></audio>
+        </div>
+        <div class="Audio">
+            <h4>Vibes</h4>
+            <audio src="./music/Vibes.mp3"></audio>
+        </div>
+        <div class="Audio">
+            <h4>Tokyo</h4>
+            <audio src="./music/Tokyo_Lo-Fi.mp3"></audio>
+        </div>
+        <div class="Audio">
+            <h4>Random</h4>
+            <audio src="./music/sample-12s.mp3"></audio>
+        </div>
+    </div>
+</body>
+<style>
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        background-color : #C499F3;
+        height : 100vh;
+        position: relative;
+        font-family: sans-serif;
+        text-transform: lowercase;
+    }
+    
+    .AudioContainer {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        top : 50%;
+        left : 50%;
+        transform : translate(-50%, -50%);
+        width : 50%;
+
+        & .Audio {
+            color : #fff;
+            border-radius: 6px;
+            background-color: #50267e;
+            padding : 16px 32px;
+            cursor: pointer;
+            & h4 {
+                font-weight: 400;
+                letter-spacing: 1px;
+                pointer-events: none;
+            }
+        }
+    }
+
+</style>
+
+<script>
+    const audioContainerElement = document.getElementById("AudioContainer");
+    let audioContext      = null;
+    
+    let lastAudioElement    = null;
+    let lastTrack           = null;
+
+    const map = new Map();
+
+    audioContainerElement.addEventListener("click", mouseEvent => {
+        if(audioContext == null) audioContext = new AudioContext();
+
+        const clickTarget = mouseEvent.target;
+        
+        const audioElement = clickTarget.querySelector("audio");
+
+        lastAudioElement?.pause();
+        lastAudioElement = audioElement;
+
+        let track = map.get(clickTarget);
+        
+        if(!track) {
+            track = audioContext.createMediaElementSource(audioElement);
+            map.set(clickTarget, track);
+            track.connect(audioContext.destination);
+        }
+        
+        audioElement.play();
+    })
+</script>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blurry Loading</title>
+</head>
+<body>
+    <div class="Container">
+    </div>
+    <h1 class="LoadingCounter" id="LoadingCounter">0%</h1>
+</body>
+<style>
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        background-color: #f6f7fb;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height : 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .Container {
+        background-image: url(https://images.unsplash.com/photo-1429734956993-8a9b0555e122?q=80&w=2104&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+        background-color: black;
+        height : 100%;
+        width : 100%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        filter: blur(10px);
+    }
+
+    .LoadingCounter {
+        position: absolute;
+        top : 50%;
+        left : 50%;
+        transform : translate(-50%, -50%);
+        color : #fff;
+    }
+    
+</style>
+
+<script>
+    const containerElement = document.getElementsByClassName("Container")[0];
+    const loadingCounterElement = document.getElementById("LoadingCounter");
+
+    let counter = 100;
+    let lastTimestamp = Date.now();
+    let fps = 1000 / 60;
+
+    function increaseLoadCounter() {
+        const currentTimestamp = Date.now();
+
+        if(Date.now() - lastTimestamp > fps) {
+            --counter;
+            loadingCounterElement.innerText = `${100 - counter}%`;
+            containerElement.style.filter = `blur(${counter / 10}px)`;
+            lastTimestamp = Date.now();
+        }
+
+        if(counter > 0) {
+            window.requestAnimationFrame(increaseLoadCounter);
+        } else {
+            loadingCounterElement.style.display = "none";
+        }
+    }
+
+    window.onload = function() {
+        requestAnimationFrame(increaseLoadCounter);
+    }
+</script>
+</html>

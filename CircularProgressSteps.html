@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Steps</title>
+</head>
+<body>
+    <div class="Container">
+        <div class="ProgressContainer">
+            <div class="Progress" id="Progress"></div>
+            <div class="Circle Active">1</div>
+            <div class="Circle">2</div>
+            <div class="Circle">3</div>
+            <div class="Circle">4</div>
+        </div>
+
+        <button class="Button" id="Prev" disabled>Prev</button>
+        <button class="Button" id="Next" >Next</button>
+    </div>
+</body>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f6f7fb;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height : 100vh;
+        overflow: hidden;
+        margin : 0;
+    }
+
+    .Container {
+        text-align: center;
+    }
+    
+    .ProgressContainer {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 30px;
+        max-width: 100%;
+        width : 350px;
+    }
+
+    .Progress {
+        width : 24px;
+        max-width: 100%;
+        height : 4px;
+        background-color: forestgreen;
+        position : absolute;
+        top : 50%;
+        left : 0;
+        transform: translateY(-50%);
+        z-index: -1;
+        transition : width .8s ease-in-out;
+    }
+
+    .Circle {
+        height : 24px;
+        width : 24px;
+        border-radius : 50%;
+        border : 1px solid lightgray;
+        line-height: 24px;
+        text-align: center;
+        font-size: 12px;
+        transition-delay: .4s;
+
+        &.Active {
+            background-color: forestgreen;
+            border-color: transparent;
+            transition-delay: 0;
+        }
+    }
+
+    Button {
+        height : 32px;
+        width : 88px;
+        color : #fff;
+        background-color: forestgreen;
+        border : 1px solid forestgreen;
+        border-radius: 4px;
+        transition-duration : .4s;
+        cursor: pointer;
+
+        &:disabled {
+            background-color: aliceblue;
+            border : 1px solid gray;
+            color : gray;
+            cursor: not-allowed;
+        }
+
+        &:active:not(:disabled) {
+            box-shadow: 2px 2px 2px forestgreen;
+        }
+    }
+</style>
+
+<script>
+    const progressElement = document.getElementById("Progress");
+
+    const prevButton = document.getElementById("Prev");
+    const nextButton = document.getElementById("Next");
+
+    const circles = document.getElementsByClassName("Circle");
+    const totalNumberOfStages = circles.length - 1;
+
+    let currentCircleIndex = 0;
+
+    nextButton.addEventListener("click", mouseEvent => {
+        if(currentCircleIndex >= totalNumberOfStages) {
+            return;
+        }
+        
+        ++currentCircleIndex;
+        
+        const nextCircle = circles[currentCircleIndex];
+        nextCircle.classList.add("Active");
+        progressElement.style.width = `${progressElement.offsetWidth + nextCircle.offsetLeft / currentCircleIndex}px`;
+
+        nextButton.disabled = currentCircleIndex >= totalNumberOfStages;
+        prevButton.disabled = currentCircleIndex < 1;
+    });
+
+    prevButton.addEventListener("click", mouseEvent => {
+        if(currentCircleIndex < 1) {
+            return;
+        }
+
+        const currentCircle = circles[currentCircleIndex];
+        currentCircle.classList.remove("Active");
+        progressElement.style.width = `${progressElement.offsetWidth - (currentCircle.offsetLeft / currentCircleIndex)}px`;
+        
+        --currentCircleIndex;
+
+        prevButton.disabled = currentCircleIndex == 0;
+        nextButton.disabled = currentCircleIndex >= totalNumberOfStages;
+    });
+</script>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notification</title>
+</head>
+<body>
+    <button class="ToastGenerator" id="ToastGenerator">Let's Toast</button>
+    <ul class="ToastMessagesList" id="ToastMessagesList"></ul>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        background-color: rgb(120, 46, 120);
+    }
+
+    .ToastGenerator {
+        position : absolute;
+        top : 50%;
+        left : 50%;
+        transform : translate(-50%, -50%);
+        font-size: 16px;
+        font-weight: 300;
+        padding : 16px 24px;
+        color : rgb(120, 46, 120);
+        border-radius : 4px;
+    }
+
+    .ToastMessagesList {
+        position : absolute;
+        right: 16px;
+        bottom : 8px;
+
+        list-style: none;
+
+        & > .Toast {
+            font-size: 16px;
+            font-weight: 300;
+            padding : 16px 24px;
+            color : rgb(120, 46, 120);
+            border-radius: 4px;
+            color : cadetblue;
+            background-color: #fff;
+            margin-top : 8px;
+        }
+    }
+
+
+</style>
+
+<script>
+
+    const toastGeneratorButton  = document.getElementById("ToastGenerator");
+    const listOfToasts          = document.getElementById("ToastMessagesList");
+
+    let messageList = [];
+    let colors = ["orange", "purple", "red", "green"];
+
+    toastGeneratorButton.addEventListener("click", _ => {
+        let messageCount = messageList.length + 1;
+
+        const liElement = document.createElement("li");
+        liElement.classList.add("Toast");
+        liElement.textContent = `Message ${messageCount}`;
+        liElement.style.color = colors[messageCount % colors.length];
+
+        messageList.push({timestamp : Date.now(), node : liElement});
+        listOfToasts.appendChild(liElement);
+    });
+
+    function removeOldToast() {
+        let deleteCount = 0;
+
+        messageList.forEach(({timestamp, node}, index) => {
+            if(Date.now() - timestamp > 2000) {
+                ++deleteCount;
+                node.remove();
+            } 
+        });
+
+        if(deleteCount > 0) {
+            messageList.splice(0, deleteCount);
+        }
+
+        window.requestAnimationFrame(removeOldToast);
+    }
+
+    removeOldToast();
+
+</script>
+</html>

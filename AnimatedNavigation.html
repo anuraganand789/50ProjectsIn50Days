@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Navigation</title>
+</head>
+<body>
+    <div class="FirstHalf"></div>
+    <div class="Menu" id="Menu">
+        <div class="MenuItem">Home</div>
+        <div class="MenuItem">Works</div>
+        <div class="MenuItem">About</div>
+        <div class="MenuItem">Contact</div>
+        <div class="CloseIcon" id="CloseIcon"></div>
+    </div>
+    <div class="SecondHalf"></div>
+</body>
+<style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');
+    
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        position: relative;
+        font-family: "Poppins", sans-serif;
+    }
+    
+    .FirstHalf{
+        height : 50%;
+        width : 100%;
+    }
+
+    .SecondHalf{
+        height : 50%;
+        width : 100%;
+        background-color : #4361ee;
+    }
+
+    .Menu {
+        position: absolute;
+        font-size: 14px;
+        font-weight : 400;
+        width : 320px;
+        height : 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color : #f3e4e4;
+        box-shadow: 2px 2px 4px #e5e1e1;
+        top: 50%;
+        left : 50%;
+        transform : translate(-50%, -50%);
+        padding : 8px 24px;
+        cursor : pointer;
+
+        transition-duration : .4s;
+
+        &.Hide {
+            width : 80px;
+
+            & .MenuItem{
+                position :absolute;
+                opacity: 0;
+                left : 45px;
+            }
+
+            & .CloseIcon {
+                margin-left : 4px;
+
+                &.Animate::before {
+                        content : "";
+                        position : absolute;
+                        width : 16px;
+                        height : 2px;
+                        background-color : blue;
+                        transition-duration: .8s;
+                        transform : rotate(720deg) translateY(4px);
+                }
+
+                &.Animate::after {
+                        content : "";
+                        position : absolute;
+                        width : 16px;
+                        height : 2px;
+                        background-color : blue;
+                        transition-duration: .8s;
+                        transform : rotate(-720deg) translateY(-4px);
+                }
+            }
+
+        } 
+
+        .MenuItem {
+            opacity : 1;
+            transition-duration: .8s;
+        }
+
+        & .CloseIcon {
+            position: relative;
+            width : 24px;
+            height : 24px;
+            /* border: 2px solid red; */
+            /* transition-duration : 1s; */
+
+            &::before {
+                content : "";
+                position : absolute;
+                width : 16px;
+                height : 2px;
+                top : 12px;
+                background-color : blue;
+                transition-duration: .8s;
+                transform : rotate(45deg);
+            }
+            
+            &::after {
+                content : "";
+                position : absolute;
+                width : 16px;
+                height : 2px;
+                top : 12px;
+                background-color : blue;
+                transition-duration: .8s;
+                transform : rotate(-45deg);
+            }
+        }
+    }
+
+    .CloseIcon.Animate::before {
+        content : "";
+        position : absolute;
+        width : 16px;
+        height : 2px;
+        background-color : blue;
+        transition-duration: .8s;
+        transform : rotate(720deg) translateY(4px);
+    }
+
+    .CloseIcon.Animate::after {
+        content : "";
+        position : absolute;
+        width : 16px;
+        height : 2px;
+        background-color : blue;
+        transition-duration: .8s;
+        transform : rotate(-720deg) translateY(-4px);
+    }
+
+</style>
+
+<script>
+    const closeIconElement  = document.getElementById("CloseIcon");
+    const menuElement       = document.getElementById("Menu");
+
+    closeIconElement.addEventListener("click", mouseEvent => {
+        closeIconElement.classList.toggle("Animate");
+        menuElement.classList.toggle("Hide");
+    })
+</script>
+</html>

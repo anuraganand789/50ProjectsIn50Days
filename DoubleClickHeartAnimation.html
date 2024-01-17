@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notification</title>
+</head>
+<body>
+    <h2>Double click on the image to <i class="fa-solid fa-heart"></i> it</h2>
+    <h4>You liked it <span class="LikeCount" id="LikeCount">0</span> times</h4>
+    <img id="Image" src="https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="A car front view">
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        background-color: rgb(120, 46, 120);
+        position: relative;
+    }
+
+    h2, h4 {
+        position: absolute;
+    }
+    
+    h2 {
+        left : 40%;
+        top : 16px;
+
+        & i {
+            color : red;
+        }
+    }
+    
+    h4 {
+        left : 45%;
+        top : 52px;
+    }
+
+    .LikeCount {
+        font-size: 24px;
+        color: burlywood;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+    img {
+        position: absolute;
+        height : 815px;
+        width : 612px;
+        left: 40%;
+        top : 120px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 
+        0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    .LikeHeart {
+        position: absolute;
+        display: block;
+        color : red;
+        transform : scale(0);
+        animation-name: HeartBeat;
+        animation-duration: .6s;
+        animation-timing-function: linear;
+        opacity: 1;
+    }
+
+    @keyframes HeartBeat {
+        to {
+            transform : scale(4);
+            opacity: 0;
+        }
+    }
+
+</style>
+
+<script>
+    const imageElement = document.getElementById("Image");
+    const likeCountElement = document.getElementById("LikeCount");
+    const bodyElement = document.querySelector("body");
+
+    let likeCount = 0;
+    let heartElement = null;
+    let heartAddedTime = null;
+
+    imageElement.addEventListener("dblclick", mouseEvent => {
+        let xPos = mouseEvent.clientX;
+        let yPos = mouseEvent.clientY;
+
+        ++likeCount;
+        likeCountElement.textContent = likeCount;
+
+        heartElement?.remove();
+
+        heartElement = createHeart();
+
+        heartElement.style.left = `${xPos - 36}px`;
+        heartElement.style.top = `${yPos - 36}px`;
+        heartElement.style.fontSize = "72px";
+
+        bodyElement.appendChild(heartElement);
+        heartAddedTime = Date.now();
+    });
+
+    function createHeart() {
+        const iElement = document.createElement("i");
+        iElement.classList.add("LikeHeart", "fa-solid", "fa-heart");
+
+        return iElement;
+    }
+
+    function removeHeart() {
+        if(heartElement && Date.now() - heartAddedTime > 1000) {
+            heartElement.remove();
+            heartElement = null;
+            heartAddedTime = null;
+        }
+
+        window.requestAnimationFrame(removeHeart);
+    }
+
+    removeHeart();
+
+</script>
+</html>

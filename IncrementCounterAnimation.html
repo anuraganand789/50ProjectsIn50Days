@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Counter</title>
+</head>
+<body>
+    <div class="Container">
+        <div class="Card">
+            <span class="CardLogo"><i class="fa-brands fa-twitter"></i></span>
+            <span class="Count" id="TwitterCount"></span>
+            <span class="Label">Twitter Followers</span>
+        </div>
+        <div class="Card">
+            <span class="CardLogo"><i class="fa-brands fa-youtube"></i></span>
+            <span class="Count" id="YoutubeCount"></span>
+            <span class="Label">Youtube Subscribers</span>
+        </div>
+        <div class="Card">
+            <span class="CardLogo"><i class="fa-brands fa-facebook"></i></span>
+            <span class="Count" id="FacebookCount"></span>
+            <span class="Label">Facebook Fans</span>
+        </div>
+    </div>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        background-color: rgb(120, 46, 120);
+
+    }
+    
+    .Container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        .Card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 18%;
+    
+            & .CardLogo {
+                width: 156px;
+                height: 87px;
+                text-align: center;
+                container-type: size;
+
+                & > i {
+                    line-height: 100cqh;
+                    font-size: 52px;
+                    color : white;
+                }
+            }
+
+            & .Count {
+                color : #fff;
+                font-size : 72px;
+            }
+
+            & .Label {
+                color : #fff;
+            }
+        }
+    }
+
+</style>
+
+<script>
+
+    const twitterCountElement   = document.getElementById("TwitterCount");
+    const countMaxTwitter       = 10260;
+    let twitterCount = 1000;
+    
+    const youtubeCountElement   = document.getElementById("YoutubeCount");
+    const countMaxYoutube       = 332;
+    let youtubeCount = 20;
+
+    const facebookCountElement  = document.getElementById("FacebookCount");
+    const countMaxFacebook      = 9678;
+    let facebookCount           = 357;
+
+    let lastTimestamp = null;
+
+    window.onload = function() {
+        lastTimestamp = Date.now();
+        animateCount();
+    }
+
+    function animateCount() {
+
+        const currentTimestamp = Date.now();
+        const timeDiff = currentTimestamp - lastTimestamp;
+
+        if(currentTimestamp - lastTimestamp > 30) {
+            
+            if(twitterCount <= countMaxTwitter)     {
+                twitterCount += 292;
+                twitterCountElement.textContent     = twitterCount;
+            }
+            
+            if(youtubeCount <= countMaxYoutube){
+                youtubeCount += 13;
+                youtubeCountElement.textContent     = youtubeCount;
+            }
+            
+            if(facebookCount <= countMaxFacebook) {
+                facebookCount += 231;
+                facebookCountElement.textContent    = facebookCount;
+            }     
+            lastTimestamp = Date.now();
+        }
+        if(twitterCount > countMaxTwitter && youtubeCount > countMaxYoutube && facebookCount > countMaxFacebook) return;
+        
+        window.requestAnimationFrame(animateCount);
+    }
+
+</script>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Profiles</title>
+</head>
+<body>
+    <div class="Container">
+        <div class="SearchInputField">
+            <input type="text" name="SearchParameter" id="SearchParameter" class="SearchParameter" placeholder="Search a Github User">
+        </div>
+        <div class="GithubProfileCard" id="GithubProfileCard">
+            <!-- <div class="ProfilePhoto">
+                <img id="ProfileImage" src="https://avatars.githubusercontent.com/u/4050372?v=4" alt="User Profile">
+            </div>
+            <div class="ProfileDetails">
+                <h2 class="ProfileName" id="ProfileName">Anurag Anand</h2>
+                <p class="ProfileBio" id="ProfileBio">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptas, ratione accusamus consequuntur a dolores laborum alias molestiae </p>
+                <div class="ProfileSocialDetails">
+                    <span class="FollowersCount" id="FollowersCount"></span> Followers
+                    <span class="FollowingCount" id="FollowingCount"></span> Following
+                    <span class="ReposCount" id="ReposCount"></span> Repos
+                </div>
+            </div> -->
+        </div>
+    </div>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    :root {
+        --h : 249;
+        --s : 39%;
+        --l : 36%;
+
+        --backgroundColor : hsl(var(--h), var(--s), var(--l));
+        --cardBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+        --inputBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+    }
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        background-color : hsl(248, 39%, 36%);
+        position: relative;
+
+        display : flex;
+        align-items: center;
+        justify-content: center;
+
+        /* text related */
+        color : #fff;
+    }
+
+    .Container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width : 700px;
+    }
+
+    .SearchInputField {
+        width : 80%;
+        height : 40px;
+
+        & .SearchParameter {
+            width : 100%;
+            height : 100%;
+            font-size: 16px;
+            background-color: var(--inputBackgroundColor);
+            border-radius: 4px;
+            border : none;
+            color : #fff;
+            padding-left: 8px;
+
+            &::placeholder {
+                color : #fff;
+            }
+        }
+    }
+
+
+    .GithubProfileCard {
+        /* background related */
+        background-color: var(--cardBackgroundColor);
+
+        /* dimensions */
+        height: 208px;
+        width : 80%;
+        padding : 24px;
+        border-radius: 16px;
+        container-type : size;
+
+        /* display type */
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-evenly;
+
+        /* positioning */
+        margin-top: 24px;
+
+        & .ProfilePhoto {
+            width : 108px;
+            height : 108px;
+            
+            & img {
+                width : 100%;
+                height : 100%;
+                border-radius: 50%;
+            }
+        }
+
+        & .ProfileDetails {
+            /* dimensions */
+            width : 80%;
+            padding-left : 32px;
+
+            /* display types */
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+
+            & .ProfileName {
+                font-size: 22px;
+                font-weight: 500;
+            }
+
+            & .ProfileBio {
+                font-size: 14px;
+                margin-top: 16px;
+            }
+
+            & .ProfileSocialDetails {
+                font-size : 12px;
+                margin-top : 12px;
+            }
+        }
+
+        & .NotFound {
+            height : 100%;
+            width : 100%;
+            line-height: 100cqh;
+            text-align: center;
+        }
+    }
+
+
+</style>
+
+<script>
+    const githubProfileCardElement    = document.getElementById("GithubProfileCard");
+    const searchParameterElement    = document.getElementById("SearchParameter");
+
+    searchParameterElement.addEventListener("keypress", async keyboardEvent => {
+        if(keyboardEvent.key == "Enter"){
+            const searchProfileName = searchParameterElement.value;
+            const profileUrl = `https://api.github.com/users/${searchProfileName}`;
+            console.log("searchText", profileUrl);
+
+            const response = await fetch(profileUrl);
+            const jsonForm = await response.json();
+            console.log("jsonForm", jsonForm);
+            /*
+            {
+                "message": "Not Found",
+                "documentation_url": "https://docs.github.com/rest/users/users#get-a-user"
+            }
+            */
+
+            if(jsonForm.message == "Not Found") {
+                githubProfileCardElement.innerHTML = "<div class='NotFound'>Not Found</div>";
+                return;
+            }
+
+            const profileImageUrl   = jsonForm.avatar_url;
+            const profileBio        = jsonForm.bio;
+            const profileFollowers  = jsonForm.followers;
+            const profileFollowing  = jsonForm.following;
+            const profileName       = jsonForm.name;
+            const publicRepos       = jsonForm.public_repos;
+
+
+            const html = `
+            <div class="ProfilePhoto">
+                <img id="ProfileImage" src="${profileImageUrl}" alt="User Profile">
+            </div>
+            <div class="ProfileDetails">
+                <h2 class="ProfileName" id="ProfileName">${profileName ?? ""}</h2>
+                <p class="ProfileBio" id="ProfileBio">${profileBio ?? ""}</p>
+                <div class="ProfileSocialDetails">
+                    <span class="FollowersCount" id="FollowersCount">${profileFollowers}</span> Followers
+                    <span class="FollowingCount" id="FollowingCount">${profileFollowing}</span> Following
+                    <span class="ReposCount" id="ReposCount">${publicRepos}</span> Repos
+                </div>
+            </div>
+            `;
+
+            githubProfileCardElement.innerHTML = html;
+
+        }
+    });
+</script>
+</html>

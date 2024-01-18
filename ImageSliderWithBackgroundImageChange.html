@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Sliders</title>
+</head>
+<body>
+    <div class="BackgroundImageContainer" id="BackgroundImageContainer">
+        <img src="https://as2.ftcdn.net/v2/jpg/06/10/26/15/1000_F_610261529_vk9kf4ooTP5eSsQdOEyB4miRHn1YWCD1.jpg" alt="">
+    </div>
+    <div class="SlideShow">
+        <button class="GoLeft" id="GoLeft">&lAarr;</button>
+        <div class="ViewPort">
+            <div class="SlideImages" id="SlideImages">
+                <div class="SlideImage" id="SlideImage">
+                    <img src="https://as2.ftcdn.net/v2/jpg/06/10/26/15/1000_F_610261529_vk9kf4ooTP5eSsQdOEyB4miRHn1YWCD1.jpg" alt="">
+                </div>
+                <div class="SlideImage" id="SlideImage">
+                    <img src="https://as1.ftcdn.net/v2/jpg/06/51/18/74/1000_F_651187422_tPctIzIXMHojIz90bm94Evrw2ufAjLyF.jpg" alt="">
+                </div>
+                <div class="SlideImage" id="SlideImage">
+                    <img src="https://as2.ftcdn.net/v2/jpg/05/76/75/01/1000_F_576750147_g6d8yYzIQHRGWCCtZ5GczNLn30wzQSSb.jpg" alt="">
+                </div>
+                <div class="SlideImage" id="SlideImage">
+                    <img src="https://as1.ftcdn.net/v2/jpg/06/51/77/30/1000_F_651773064_D6DEyPKIbScWqjd0X8TfQu6IMevXTeBw.jpg" alt="">
+                </div>
+            </div>
+        </div>
+        <button class="GoRight" id="GoRight">&rAarr;</button>
+    </div>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    :root {
+        --h : 249;
+        --s : 39%;
+        --l : 36%;
+
+        --backgroundColor : hsl(var(--h), var(--s), var(--l));
+        --cardBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+        --inputBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+    }
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        font-family: "Poppins", sans-serif;
+        width : 100vw;
+        height: 100vh;
+        container-type: inline-size;
+        position: relative;
+    }
+
+    .BackgroundImageContainer {
+        height :100%;
+        width : 100%;
+        filter: blur(5px);
+        position : fixed;
+        z-index: -1;
+
+        & img {
+            width : 100%;
+            height : 100%;
+            transition-duration: .4s;
+        }
+    }
+    
+    .SlideShow {
+        height : 550px;
+        margin-top: 200px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & .ViewPort {
+            position: absolute;
+            width : 1000px;
+            height : 550px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        & .SlideImages {
+            width   : 4000px;
+            height  : 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position : absolute;
+
+            container-type: inline-size;
+
+            z-index: 100;
+
+            transition : .4s;
+
+            & .SlideImage {
+                width: 25cqw;
+                height : 100%;
+
+                & img {
+                    width : 100%;
+                    height : 100%;
+                }
+            }
+        }
+
+        & .GoLeft, & .GoRight {
+            height : 48px;
+            width : 48px;
+            font-size: 24px;
+            text-align: center;
+            line-height: 48px;
+            cursor: pointer;
+        }
+
+        & .GoLeft {
+            position : absolute;
+            left : 10%;
+            top : 45%;
+
+            &:active {
+                color : rgb(152, 127, 26);
+            }
+        }
+        
+        & .GoRight {
+            position : absolute;
+            right : 10%;
+            top : 45%;
+            
+            &:active {
+                color : rgb(152, 127, 26);
+            }
+        }
+    }
+
+</style>
+
+<script>
+    const backgroundImageElement = document.querySelector(".BackgroundImageContainer img");
+    const allImagesTags = document.querySelectorAll(".SlideImage img");
+
+    const buttonGoLeft = document.getElementById("GoLeft");
+    const buttonGoRight = document.getElementById("GoRight");
+    const imageSlider = document.getElementById("SlideImages");
+    
+    let imagePosition = 0;
+
+    buttonGoLeft.addEventListener("click", _ => {
+        ++imagePosition;
+
+        if(imagePosition > 3) imagePosition = 0;
+
+        imageSlider.style.transform = `translateX(${-1 * imagePosition * 1000}px)`;
+        backgroundImageElement.src = allImagesTags.item(imagePosition).src;
+    });
+    
+    buttonGoRight.addEventListener("click", _ => {
+        --imagePosition;
+        
+        if(imagePosition < 0) imagePosition = 3;
+        
+        imageSlider.style.transform = `translateX(${-1 * imagePosition * 1000}px)`;
+        backgroundImageElement.src = allImagesTags.item(imagePosition).src;
+    });
+    
+</script>
+</html>

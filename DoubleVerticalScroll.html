@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Profiles</title>
+</head>
+<body>
+    <div class="Left" id="Left">
+        <div class="LeftScreen" style="--position : 1; background-color: #edcb75;">
+            <h2 class="Title">Lovely Castle</h2>
+        </div>
+        <div class="LeftScreen" style="--position : 2; background-color : #F0B86E">
+            <h2 class="Title">Flowers</h2>
+        </div>
+        <div class="LeftScreen" style="--position : 3; background-color: #836096;">
+            <h2 class="Title">Evening Sky</h2>
+        </div>
+        <div class="LeftScreen" style="--position : 4; background-color : #79AC78">
+            <h2 class="Title">Majestic Bird</h2>
+        </div>
+    </div>
+    <div class="Right" id="Right">
+        <div class="RightScreen" style="--position : 1;">
+            <img src="https://plus.unsplash.com/premium_photo-1661914097200-65469aa701d8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Castle">
+        </div>
+        <div class="RightScreen" style="--position : 2;">
+            <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Flowers">
+        </div>
+        <div class="RightScreen" style="--position : 3;">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Mountain">
+        </div>
+        <div class="RightScreen" style="--position : 4;">
+            <img src="https://plus.unsplash.com/premium_photo-1687880581926-e3d23bde38e7?q=80&w=1941&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bird">
+        </div>
+    </div>
+
+    <button class="ScrollButton" id="ScrollButton">Move</button>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    :root {
+        --h : 249;
+        --s : 39%;
+        --l : 36%;
+
+        --backgroundColor : hsl(var(--h), var(--s), var(--l));
+        --cardBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+        --inputBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+    }
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        height : 100vh;
+        font-family: "Poppins", sans-serif;
+        width : 100vw;
+        height: 100vh;
+        container-type: inline-size;
+        display: flex;
+    }
+
+    .Left {
+        width : 30%;
+        height : 400%;
+        position: relative;
+        transition : .6s;
+    }
+    
+    .Right {
+        width : 70%;
+        height : 400%;
+        position: relative;
+        transition : .6s;
+    }
+
+    .LeftScreen, .RightScreen {
+        height : 100vh;
+    }
+
+    .LeftScreen {
+        width: 100%;
+        background-color: red;
+        position: absolute;
+        top : calc(( var(--position) - 1) * 100vh * -1);
+
+        & h2 {
+            color : #fff;
+            text-align: center;
+            line-height: 100vh;
+            font-size: 32px;
+        }
+    }
+
+    .RightScreen {
+        width: 100%;
+        background-color: green;
+        position: absolute;
+        top : calc(( var(--position) - 1) * 100vh);
+
+        & img {
+            width : 100%;
+            height: 100vh;
+        }
+    }
+
+    .ScrollButton {
+        position: fixed;
+        left : 28%;
+        top: 45%;
+        padding : 12px 24px;
+        background-color: yellowgreen;
+        color : #fff;
+        border: none;
+        border-radius: 4px;
+        transition : .3s;
+        cursor: pointer;
+        &:active {
+            transform : translateY(2px);
+        }
+    }
+
+</style>
+
+<script>
+    
+    const scrollButton = document.getElementById("ScrollButton");
+    const leftElement = document.getElementById("Left");
+    const rightElement = document.getElementById("Right");
+
+    const numberOfScrolling = 4;
+    
+    let iterationCount = 1;
+
+    scrollButton.addEventListener("click", _ => {
+        if(iterationCount >= numberOfScrolling) iterationCount = 0;
+
+        rightElement.style.transform = `translateY(${iterationCount * -100}vh)`;
+        leftElement.style.transform = `translateY(${iterationCount * 100}vh)`;
+
+        ++iterationCount;
+    })
+</script>
+</html>

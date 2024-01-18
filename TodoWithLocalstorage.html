@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+</head>
+<body>
+    <h1><span class="TodoCount" id="TodoCount">0</span> todos</h1>
+    <input 
+    type="text" 
+    name="TodoText" 
+    id="TodoText" 
+    class="TodoText"
+    placeholder="Enter Your Todo"
+    >
+    <ul class="TodoList" id="TodoList"></ul>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    :root {
+        --h : 0;
+        --s : 53%;
+        --l : 89%;
+
+        --backgroundColor : hsl(var(--h), var(--s), var(--l));
+        --cardBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+        --h1Color : hsl(var(--h), var(--s), calc(var(--l) - 20%));
+        --inputBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+    }
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        /* width : 100vw; */
+        height: 100vh;
+        position: relative;
+        background-color: var(--backgroundColor);
+    }
+
+    h1 {
+        font-size : 128px;
+        color : var(--h1Color);
+        /* line-height: 50vh; */
+        text-align: center;
+        vertical-align: bottom;
+        margin-top : 180px;
+    }
+    
+    .TodoCount {
+        font-size : 320px;
+        color : var(--h1Color);
+        text-align: center;
+        vertical-align: bottom;
+        position: absolute;
+        left : 45%;
+        top : -132px;
+        z-index: -1;
+        color : rgb(42, 147, 147);
+    }
+
+    .TodoText {
+        width   : 400px;
+        height  : 56px;
+        border : none;
+        background-color: var(--inputBackgroundColor);
+        
+        color : var(--h1Color);
+        font-size : 28px;
+
+        /* margin-padding */
+        padding-left : 24px;
+        margin-left : 50vw;
+        transform  : translateX(-50%);
+        margin-top : 100px;
+        
+        outline: none;
+
+        &::placeholder {
+            color : var(--h1Color);
+            font-size : 28px;
+        }
+
+        &:focus {
+            box-shadow: 1px 1px 4px var(--h1Color);
+        }
+    }
+
+    .TodoList {
+        list-style-type: none;
+        width: 400px;
+        color : var(--h1Color);
+        
+        margin-left: 50%;
+        transform : translateX(-50%);
+        margin-top : 24px;
+        font-size: 22px;
+        
+        container-type: size;
+        & .TodoItem {
+            background-color: var(--inputBackgroundColor);
+            border : 1px solid var(--backgroundColor);
+            height : 56px;
+            padding : 12px;
+            cursor: pointer;
+
+            &.Done {
+                text-decoration: line-through;
+            }
+        }
+    }
+</style>
+
+<!-- variables -->
+<script>
+    const todoTextbox           = document.getElementById("TodoText");
+    const todoListElement       = document.getElementById("TodoList");
+    const todoCountElement      = document.getElementById("TodoCount");
+
+    const localStorageKey = "ToDos";
+    let todoCount = 0;
+    let listOfTodos = [];
+
+</script>
+
+<!-- functions -->
+
+<script>
+    
+    function addTodo(todoText, done = false) {
+        const liElement = document.createElement("li");
+        liElement.textContent = todoText;
+        liElement.classList.add("TodoItem");
+        todoListElement.append(liElement);
+
+        listOfTodos.push({ text : todoText, done });
+
+        ++todoCount;
+        updateCount();
+    }
+    
+    function updateCount(){
+        todoCountElement.textContent = todoCount;
+    }
+
+    function findIndexOfCurrentLiNode(liNode){
+        
+        const todoItems = document.querySelectorAll(".TodoItem");
+
+        for(let index = 0; index < todoItems.length; ++index){
+            if(todoItems.item(index) == liNode) return index;
+        }
+
+        return -1;
+    }
+
+    function saveTodoList() {
+        localStorage.setItem(localStorageKey, JSON.stringify(listOfTodos));
+    }
+
+    function initTodoList(list) {
+        for(let todo of list) {
+            const liElement = document.createElement("li");
+            liElement.textContent = todo.text;
+            
+            liElement.classList.add("TodoItem");
+            if(todo.done) liElement.classList.add("Done");
+
+            todoListElement.append(liElement);
+
+            ++todoCount;
+            updateCount();        
+        }
+    }
+</script>
+
+
+<!-- eventlisteners -->
+
+<script>
+
+    window.addEventListener("load", _ => {
+        const todoJson = localStorage.getItem(localStorageKey);
+        if(todoJson) {
+            listOfTodos = JSON.parse(todoJson);
+            initTodoList(listOfTodos);
+        }
+    })
+    
+    todoTextbox.addEventListener("keypress", keyboardEvent => {
+        if(keyboardEvent.key == "Enter" && todoTextbox.value) {
+            addTodo(todoTextbox.value);
+            todoTextbox.value = null;
+            saveTodoList()
+        }
+    });
+
+    todoListElement.addEventListener("click", mouseEvent => {
+        const target = mouseEvent.target;
+        target.classList.toggle("Done");
+        const liIndex = findIndexOfCurrentLiNode(target);
+        listOfTodos[liIndex].done = target.classList.contains("Done");
+        saveTodoList();
+    });
+
+    todoListElement.addEventListener("dblclick", mouseEvent => {
+        const target = mouseEvent.target;
+        
+        const liIndex = findIndexOfCurrentLiNode(target);
+        listOfTodos.splice(liIndex, 1);
+
+        target.remove();
+
+        --todoCount
+        updateCount();
+        saveTodoList();
+    });
+</script>
+</html>

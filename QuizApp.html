@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+</head>
+<body>
+    <div class="Container" id="Container"></div>
+    <button class="Submit" id="Submit">Submit</button>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    
+    :root {
+        --h : 271;
+        --s : 50%;
+        --l : 49%;
+
+        --colorPrimary : hsl(var(--h), var(--s), var(--l));
+        --todoCountColor : hsl(calc(var(--h) * 2), var(--s), var(--l));
+        --backgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 48%));
+        --cardBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+        --cardBoxShadowColor : hsl(var(--h), var(--s), calc(var(--l) - 10%));
+        --h1Color : hsl(var(--h), var(--s), calc(var(--l) - 20%));
+        --inputBackgroundColor : hsl(var(--h), var(--s), calc(var(--l) + 5%));
+    }
+
+    * {
+        box-sizing: border-box;
+        margin : 0;
+        padding : 0;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        height: 100vh;
+        position: relative;
+        background-color: var(--backgroundColor);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .Container {
+        width : 480px;
+        height : 384px;
+        background-color: #fff;
+        padding : 60px;
+        /* border-radius: 8px; */
+        overflow: hidden;
+        box-shadow: 2px 2px 10px var(--cardBoxShadowColor);
+        
+        & .Question {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 500;
+        }
+        
+        & .Choices {
+            list-style: none;
+            margin-top: 40px;
+
+            & .Choice {
+                padding : 8px;
+                
+                &:has(.ChoiceRadio:checked) {
+                    background-color: rgb(174, 174, 140);
+                    color : #fff;
+                }
+
+                & .ChoiceRadio {
+                    height : 16px;
+                    width: 16px;
+                    border-radius: 50%;
+                    appearance: none;
+                    transition: .4s all linear;
+                    border : 1px solid var(--colorPrimary);
+
+                    &:checked {
+                        border : 6px solid #fff;
+                    }
+                }
+
+                & .ChoiceText {
+                    display: inline-block;
+                    width : 80%;
+                    margin-left : 16px;
+                    vertical-align: text-bottom;
+                    cursor: pointer;
+                }
+            }
+        }
+        
+    }
+
+    .Submit {
+        border : 0;
+        font-size: 14px;
+        width : 480px;
+        height : 64px;
+        color : #fff;
+        background-color: var(--colorPrimary);
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        cursor: pointer;
+        box-shadow: 2px 2px 10px var(--cardBoxShadowColor);
+    }
+</style>
+
+<!-- constants and variables -->
+<script>
+
+    let currentQuestionNumber = 0;
+
+    const submitButton      = document.getElementById("Submit");
+    const containerElement  = document.getElementById("Container");
+
+    const quizQuestions = [
+        {
+            question    : "Which language runs in a web browser?",
+            choices     : ["Java", "C", "Python", "Javascript"],
+            answer      : "Javascript",
+        },
+        {
+            question    : "What does CSS stands for?",
+            choices     : ["Central Style Sheets", "Cascading Style Sheets", "Cascading Simple Sheet", "CARS SUVs Sailboats"],
+            answer      : "Cascading Style Sheets",
+        },
+        {
+            question    : "2 + 2 ?",
+            choices     : ["4", "5", "6", "7"],
+            answer      : "4",
+        },
+        {
+            question    : "What is the number of days in a week?",
+            choices     : ["12", "7", "3", "10"],
+            answer      : "7",
+        },
+    ];
+
+</script>
+
+<!-- functions -->
+<script>
+    function getHtml(questionNumber){
+        const question = quizQuestions[questionNumber];
+        const choices = question.choices;
+
+        return `
+        <h2 class="Question" id="Question">${question.question}</h2>
+        <ul class="Choices" id="Choices">
+            <li class="Choice">
+                <input type="radio" id="ChoiceOne" name="ChoiceRadio" class="ChoiceRadio" value="${choices[0]}">
+               <label class="ChoiceText" for="ChoiceOne">${choices[0]}</label>
+            </li>
+            <li class="Choice">
+                <input type="radio" id="ChoiceTwo" name="ChoiceRadio" class="ChoiceRadio" value="${choices[1]}">
+                <label class="ChoiceText" for="ChoiceTwo">${choices[1]}</label>
+            </li>
+            <li class="Choice">
+                <input type="radio" id="ChoiceThree" name="ChoiceRadio" class="ChoiceRadio" value="${choices[2]}">
+                <label class="ChoiceText" for="ChoiceThree">${choices[2]}</label>
+            </li>
+            <li class="Choice">
+                <input type="radio" id="ChoiceFour" name="ChoiceRadio" class="ChoiceRadio" value="${choices[3]}">
+                <label class="ChoiceText" for="ChoiceFour">${choices[3]}</label>
+            </li>
+        </ul>
+        `;
+    }
+
+    function reset(){
+        numberOfCorrectAnswers  = 0;
+        currentQuestionNumber   = 0;
+        submitButton.textContent = "Submit";
+        containerElement.innerHTML = getHtml(currentQuestionNumber);
+    }
+</script>
+<script>
+    
+    window.addEventListener("load", _ => {
+        const questionHTML = getHtml(currentQuestionNumber);
+        containerElement.innerHTML = questionHTML;
+    });
+
+    let numberOfCorrectAnswers = 0;
+    let totalNumberOfQuestions = quizQuestions.length;
+
+    submitButton.addEventListener("click", mouseEvent => {
+        if(currentQuestionNumber > totalNumberOfQuestions) {
+            reset();
+            return;
+        }
+        const selectedRadioButton = document.querySelector("input[name='ChoiceRadio']:checked");
+        if(!selectedRadioButton) return;
+
+        const selectedValue = selectedRadioButton.value;
+        if(quizQuestions[currentQuestionNumber].answer == selectedValue) ++numberOfCorrectAnswers;
+        ++currentQuestionNumber;
+
+        if(currentQuestionNumber == totalNumberOfQuestions) {
+            containerElement.innerHTML = `<h2 class='Question'>You answered ${numberOfCorrectAnswers}/${totalNumberOfQuestions} questions correctly</h2>`;
+            submitButton.textContent = "Reload";
+            ++currentQuestionNumber;
+        } else if(currentQuestionNumber > totalNumberOfQuestions) {
+            currentQuestionNumber = 0;
+            numberOfCorrectAnswers = 0;
+            submitButton.textContent = "Submit";
+            containerElement.innerHTML = getHtml(currentQuestionNumber);
+        }else {
+            containerElement.innerHTML = getHtml(currentQuestionNumber);
+        }
+    });
+
+</script>
+
+<!-- functions -->
+</html>

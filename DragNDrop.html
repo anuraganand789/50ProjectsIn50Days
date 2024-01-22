@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag N Drop</title>
+</head>
+<body>
+    <div class="Container" id="Container">
+        <ul class="DropTargetContainer" id="DropTargetContainer">
+            <li class="DropTarget"><div class="Movable" id="Movable" draggable="true"></div></li>
+            <li class="DropTarget"></li>
+            <li class="DropTarget"></li>
+            <li class="DropTarget"></li>
+            <li class="DropTarget"></li>
+        </ul>
+    </div>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+
+    :root {
+
+        --h : 240;
+        --s : 91%;
+        --l : 61%;
+
+        --backgroundColor   : hsl(var(--h), var(--s), var(--l));
+        --quoteColor        : hsl(var(--h), calc(var(--s) - 24%), var(--l));
+    }
+    * {
+        border : 0;
+        margin : 0;
+        border : 0;
+        padding : 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height : 100vh;
+        width: 100%;
+
+        background-color: rgb(17, 63, 107);
+    }
+
+    .Container {
+        width : fit-content;
+        height : 240px;
+
+        & .DropTargetContainer {
+            list-style-type: none;
+            width : 100%;
+
+            & .DropTarget {
+                display: inline-block;
+
+                width : 140px;
+                height : 140px;
+
+                border : 4px solid black;
+                background-color: #fff;
+
+                &:not(:first-of-type) {
+                    margin-left : 24px;
+                }
+            }
+        }
+    }
+
+    .Movable {
+        width : 140px;
+        height : 140px;
+        background: url(https://images.unsplash.com/photo-1704071085149-2dd6f2e0a37a?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwNTkxMjYzOA&ixlib=rb-4.0.3&q=80&w=300);
+    }
+
+    .DragEnter {
+        background-color : black !important;
+        border : 4px dashed white !important;
+    }
+
+</style>
+
+<!-- constants and variables -->
+<script>
+
+    const moveable      = document.getElementById("Movable")
+    const dropTarget    = document.getElementById("DropTargetContainer")
+
+    let draggedElement = null;
+
+    const drawImage = new Image(80, 80);
+    drawImage.src = "https://images.unsplash.com/photo-1704071085149-2dd6f2e0a37a?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwNTkxMjYzOA&ixlib=rb-4.0.3&q=80&w=300";
+
+    moveable.addEventListener("dragstart", dragEvent => {
+        dragEvent.dataTransfer.setDragImage(drawImage, 10, 10);
+        dragEvent.dataTransfer.dropEffect = "move";
+        draggedElement = dragEvent.target;        
+    });
+
+    dropTarget.addEventListener("dragover", dragoverEvent => {
+        dragoverEvent.dataTransfer.dropEffect = "move";
+        dragoverEvent.preventDefault();
+    });
+    
+    dropTarget.querySelectorAll("li").forEach( node =>
+        node.addEventListener("dragenter", dragEnterEvent => {
+                dragEnterEvent.target.classList.add("DragEnter")
+            }
+        )
+    );
+
+    dropTarget.querySelectorAll("li").forEach( node =>
+        node.addEventListener("dragleave", dragLeave => {
+                dragLeave.target.classList.remove("DragEnter")
+            }
+        )
+    );
+    
+    dropTarget.addEventListener("drop", dropEvent => {
+        dropEvent.preventDefault();
+        if(dropEvent.target == draggedElement || dropEvent.target == draggedElement.parent) return;
+        dropEvent.target.append(draggedElement);
+        dropEvent.target.classList.remove("DragEnter")
+    });
+
+</script>
+</html>

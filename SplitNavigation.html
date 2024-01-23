@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Landing Page</title>
+</head>
+<body>
+    <div class="Playstation Card" id="Playstation">
+        <h1 class="Header">Playstation 5</h1>
+        <button class="BuyButton">buy now</button>
+    </div>
+    
+    <div class="Xbox Card" id="XBox">
+        <h1 class="Header">XBox</h1>
+        <button class="BuyButton">buy now</button>
+    </div>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    @import url(./MaterialDesignLightTheme.css);
+    * {
+        border : 0;
+        margin : 0;
+        border : 0;
+        padding : 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height : 100vh;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        align-items: center;
+    }
+
+    .Card{
+        width : 50%;
+        height : 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    
+        gap: 56px;
+        transition-duration : .4s;
+
+        & .BuyButton {
+            cursor: pointer;
+        }
+    }
+    .Playstation {
+        background: url(ExMachina.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top : 0;
+            left : 0;
+            right : 0;
+            bottom : 0;
+            background-color: rgba(195, 57, 57, 0.4);
+        }
+
+        &:hover {
+            width : 85%;
+
+            
+            &::before {
+                background-color: rgba(39, 84, 207, 0.064);
+            }
+
+            & .Header {
+                color : rgb(195, 57, 57);
+            }
+
+            & .BuyButton {
+                border : 2px solid rgb(195, 57, 57);
+                color : rgb(195, 57, 57);
+                box-shadow: 2px 2px 2px rgb(195, 57, 57);
+                text-shadow: 1px 1px 2px rgb(195, 57, 57);
+            }
+        }
+    }
+    
+    .Xbox {
+        background: url(TekkenXbox.png);
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top : 0;
+            left : 0;
+            right : 0;
+            bottom : 0;
+            background-color: rgba(39, 84, 207, 0.4);
+        }
+
+        
+        &:hover {
+            width : 85%;
+
+            &::before {
+                background-color: rgba(39, 84, 207, 0.064);
+            }
+
+            & .Header {
+                color : rgb(39, 84, 207);
+            }
+
+            & .BuyButton {
+                border : 2px solid rgb(39, 84, 207);
+                color : rgb(39, 84, 207);
+                box-shadow: 2px 2px 2px rgb(39, 84, 207);
+                text-shadow: 1px 1px 2px rgb(39, 84, 207);
+            }
+        }
+    }
+
+    .Header {
+        color : #fff;
+        font-weight: 700;
+        font-size: 64px;
+    }
+    
+    .BuyButton {
+        font-weight: 900;
+        font-size: 16px;
+        color : #fff;
+        background-color: transparent;
+        border : 2px solid #fff;
+        text-transform: uppercase;
+        width : 240px;
+        height : 88px;
+    }
+
+</style>
+
+<!-- constants and variables -->
+<script>
+</script>
+
+</html>

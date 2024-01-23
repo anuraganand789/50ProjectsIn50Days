@@ -64,18 +64,4 @@
 
         --lightColorOutline                 :   #79747E;
         --lightColorOutlineVariant          :   #CAC4D0;
-
-
-        --buttonFilledContainerHeight   :   40dp;
-        --buttonFilledFontFamily        :   "Roboto";
-        --buttonFilledLabelLineHeight   :   20pt;
-        --buttonFilledLabelSize         :   14pt;
-        --buttonFilledLabelWeight       :   500;
-        --buttonFilledLabelTracking     :   0.1pt;
-        --buttonFilledLabelColor        :   #FFFFFF;
-        --buttonFilledLabelTextStyle    :   var(--buttonFilledFontFamily) 
-                                            var(--buttonFilledLabelWeight) 
-                                            var(--buttonFilledLabelSize) 
-                                            var(--buttonFilledLabelLineHeight)
-                                            var(--buttonFilledLabelTracking);
 }

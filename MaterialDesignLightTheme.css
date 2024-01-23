@@ -1,0 +1,81 @@
+:root {
+        --lightColorPrimary                 :   #6750A4;
+        --lightColorOnPrimary               :   #FFFFFF;
+        --lightColorPrimaryContainer        :   #EADDFF;
+        --lightColorPrimaryContainerOn      :   #21005D;
+        --lightColorShadow                  :   #000000;
+
+        /* addons for primary color */
+        --lightColorPrimaryFixed            :   #EADDFF;
+        --lightColorPrimaryFixedOn          :   #21005D;
+        --lightColorPrimaryFixedOnVariant   :   #4F378B;
+        --lightColorPrimaryFixedDim         :   #D0BCFF;
+        --lightColorPrimaryInverse          :   #D0BCFF;
+
+
+        --lightColorSecondary               :   #625B71;
+        --lightColorSecondaryOn             :   #FFFFFF;
+        --lightColorSecondaryContainer      :   #E8DEF8;
+        --lightColorSecondaryContainerOn    :   #1D192B;
+
+        /* addons for secondary color */
+        --lightColorSecondaryFixed          :   #E8DEF8;
+        --lightColorSecondaryFixedOn        :   #1D192B;
+        --lightColorSecondaryFixedOnVariant :   #4A4458;
+        --lightColorSecondaryFixedDim       :   #CCC2DC;
+        
+        --lightColorTertiary                :   #7D5260;
+        --lightColorTertiaryOn              :   #FFFFFF;
+        --lightColorTertiaryContainer       :   #FFD8E4;
+        --lightColorTertiaryContainerOn     :   #31111D;
+
+        /* addons for tertiary color */
+        --lightColorTertiaryFixed           :   #FFD8E4;
+        --lightColorTertiaryFixedOn         :   #31111D;
+        --lightColorTertiaryFixedVariant    :   #633B48;
+        --lightColorTertiaryFixedDim        :   #EFB8C8;
+
+        --lightColorError                   :   #B3261E;
+        --lightColorErrorOn                 :   #FFFFFF;
+        --lightColorErrorContainer          :   #F9DEDC;
+        --lightColorErrorContainerOn        :   #410E0B;
+
+        --lightColorSurface                 :   #FEF7FF;
+        --lightColorSurfaceOn               :   #1D1B20;
+        --lightColorSurfaceVariant          :   #E7E0EC;
+        --lightColorSurfaceVariantOn        :   #49454F;
+        --lightColorSurfaceContainerHighest :   #E6E0E9;
+        --lightColorSurfaceContainerHigh    :   #ECE6F0;
+        --lightColorSurfaceContainer        :   #F3EDF7;
+        --lightColorSurfaceContainerLow     :   #F7F2FA;
+        --lightColorSurfaceContainerLowest  :   #FFFFFF;
+        --lightColorSurfaceContainerInverseSurface      :   #322F35;
+        --lightColorSurfaceContainerInverseSurfaceOn    :   #F5EFF7;
+        --lightColorSurfaceTint                         :   #6750A4;
+        --lightColorSurafaceTintColor                   :   #6750A4;
+
+        /* addons surface color */
+        --lightColorBackgroundOn    :   #1D1B20;
+        --lightColorSurfaceBright   :   #FEF7FF;
+        --lightColorSurfaceDim      :   #DED8E1;
+        --lightColorSurfaceScrim    :   #000000;
+        --lightColorSurfaceShadow    :   #000000;
+
+
+        --lightColorOutline                 :   #79747E;
+        --lightColorOutlineVariant          :   #CAC4D0;
+
+
+        --buttonFilledContainerHeight   :   40dp;
+        --buttonFilledFontFamily        :   "Roboto";
+        --buttonFilledLabelLineHeight   :   20pt;
+        --buttonFilledLabelSize         :   14pt;
+        --buttonFilledLabelWeight       :   500;
+        --buttonFilledLabelTracking     :   0.1pt;
+        --buttonFilledLabelColor        :   #FFFFFF;
+        --buttonFilledLabelTextStyle    :   var(--buttonFilledFontFamily) 
+                                            var(--buttonFilledLabelWeight) 
+                                            var(--buttonFilledLabelSize) 
+                                            var(--buttonFilledLabelLineHeight)
+                                            var(--buttonFilledLabelTracking);
+}

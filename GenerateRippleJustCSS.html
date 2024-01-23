@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Ripple Effect 2</title>
+</head>
+<body>
+    <button class="Button">
+        Generate Ripple
+    </button>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    @import url(./MaterialDesignLightTheme.css);
+
+    * {
+        border : 0;
+        margin : 0;
+        border : 0;
+        padding : 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height : 100vh;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: var(--lightColorSurface);
+    }
+
+    .Button {
+        width : 480px;
+        height : 124px;
+
+        font-family         : "Roboto", sans-serif;
+        font-size           : 32px;
+        line-height         : 48px;
+        color               : var(--lightColorPrimaryOn);
+        
+        background-color    : var(--lightColorPrimary);
+        position: relative;
+
+        overflow: hidden;
+
+        &::before {
+            content     : "";
+            position    : absolute;
+            width       :   0;
+            height      :   0;
+            background-color: rgba(240, 248, 255, 0.243);
+            top             : -100px;
+            left            : -240px;
+            border-radius   : 50%;
+            transition-duration     : 1s;
+            transform-origin: center;
+        }
+
+        &:hover::before {
+            width : 1000px;
+            height : 1000px;
+            background-color: var(--lightColorError);
+            opacity: 0;
+        }
+    }
+</style>
+</html>

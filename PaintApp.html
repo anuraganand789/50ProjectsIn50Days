@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing App</title>
+</head>
+<body>
+    <div class="Container" id="Container">
+        <canvas id="Canvas" class="Canvas" width="800px" height="800px"></canvas>
+        <menu class="ToolBar">
+            <menu class="Options">   
+                <button class="Option"  id="SubtractButton"     data-step="5"       data-min="5">-</button>
+                <span class="StrokeWidthDisplay"  id="BrushWidthButton">5</span>
+                <button class="Option"  id="IncreaseButton"     data-step="5"       data-max="50">+</button>
+                <input  type="color"    class="Option"          name="ColorPicker"  id="ColorPicker">
+            </menu>
+            <button class="CloseButton" id="CloseButton">X</button>
+        </menu>
+    </div>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    @import url(./MaterialDesignLightTheme.css);
+    * {
+        border : 0;
+        margin : 0;
+        border : 0;
+        padding : 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --buttonFilledContainerHeight   :   40dp;
+        --buttonFilledFontFamily        :   "Roboto";
+        --buttonFilledLabelLineHeight   :   20pt;
+        --buttonFilledLabelSize         :   14pt;
+        --buttonFilledLabelWeight       :   500;
+        --buttonFilledLabelTracking     :   0.1pt;
+        --buttonFilledLabelColor        :   #FFFFFF;
+        --buttonFilledLabelTextStyle    :   var(--buttonFilledFontFamily) 
+                                            var(--buttonFilledLabelWeight) 
+                                            var(--buttonFilledLabelSize) 
+                                            var(--buttonFilledLabelLineHeight)
+                                            var(--buttonFilledLabelTracking);
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height : 100vh;
+        width: 100%;
+
+        /* background-color: var(--lightColorSurfaceContainerHighest); */
+    }
+
+    .Container {
+        width : 800px;
+        height : 900px;
+    }
+    
+    .Canvas {
+        border: 2px solid var(--lightColorBackgroundOn);
+    }
+    
+    .ToolBar {
+        background-color: var(--lightColorSurfaceVariant);
+        width : 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        & .Options {
+            height : 100%;
+            width: 35%;
+            
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 2px;
+            
+            & .Option {
+                font-family         : var(--buttonFilledFontFamily), sans-serif;
+                color               : var(--buttonFilledLabelColor);
+                background-color    :   var(--lightColorPrimary);
+                font-size           :   var(--buttonFilledLabelSize);
+                line-height         :   var(--buttonFilledLabelLineHeight);
+                font-weight         :   var(--buttonFilledLabelWeight);
+                
+                width : 88px;
+                height : 88px;
+                
+                cursor : pointer;   
+                
+                &:hover, &:active {
+                    background-color: var(--lightColorSecondary);
+                    color           :   var(--lightColorOnPrimary);
+                    border-width: 3dp;
+                    border-radius : 4px;
+                }
+
+                &:active {
+                    border-radius: 8px;
+                }
+
+            }
+            
+            & .StrokeWidthDisplay {
+                display: inline-block;
+                width : 88px;
+                height : 88px;
+                text-align: center;
+                line-height: 88px;
+                border-radius: 50%;
+
+                font-family         : var(--buttonFilledFontFamily), sans-serif;
+                color               : var(--buttonFilledLabelColor);
+                background-color    :   var(--lightColorTertiary);
+                font-size           :   var(--buttonFilledLabelSize);
+                font-weight         :   var(--buttonFilledLabelWeight);
+            }
+        }
+        
+        .CloseButton {
+            font-family     : var(--buttonFilledFontFamily), sans-serif;
+            color           : var(--buttonFilledLabelColor);
+            background-color    :   var(--lightColorPrimary);
+            font-size       :   var(--buttonFilledLabelSize);
+            line-height     :   var(--buttonFilledLabelLineHeight);
+            font-weight     :   var(--buttonFilledLabelWeight);
+            
+            width   : 88px;
+            height  : 88px;
+            
+            text-align: center;
+            line-height: 88px;
+            cursor : pointer;
+            
+            &:hover {
+                border-width: 3dp;
+                color           :   var(--lightColorOnPrimary);
+                background-color: var(--lightColorSecondary);
+                border-radius : 4px;
+            }
+
+            &:active {
+                border-radius : 8px;
+            }
+        }
+    }
+
+</style>
+
+<!-- constants and variables -->
+<script>
+    const colorPickerElement        = document.getElementById("ColorPicker");
+    let brushColor = colorPickerElement.value;
+
+    const brushWidthButtonElement   = document.getElementById("BrushWidthButton");
+    let strokeWidth = Number.parseInt(brushWidthButtonElement.textContent);
+    
+    const subtractButtonElement     = document.getElementById("SubtractButton");
+    const increaseButtonElement     = document.getElementById("IncreaseButton");
+
+    const closeButtonElement     = document.getElementById("CloseButton");
+
+    let canvasElement   = null;
+    let canvas2DContext = null;
+
+    let mouseDown = false;
+    let canvasElementOffsetLeft = null;
+    let pathStartX  = null;
+    let pathStartY    = null;
+
+</script>
+
+<!-- functions -->
+<script>
+    function updateStrokeWidth(width){
+        strokeWidth = width;
+        brushWidthButtonElement.textContent = strokeWidth;
+    }
+
+    function drawCircles(x, y){
+        canvas2DContext.beginPath();
+        canvas2DContext.arc(x, y, strokeWidth, 0, Math.PI * 2);
+        // canvas2DContext.fillRect(x, y, 5, 5);
+
+        canvas2DContext.fillStyle = brushColor;
+        canvas2DContext.fill();
+    }
+    
+    function drawLine(startX, startY, endX, endY){
+        canvas2DContext.beginPath();
+
+        canvas2DContext.moveTo(startX, startY);
+        canvas2DContext.lineTo(endX, endY);
+
+        canvas2DContext.strokeStyle = brushColor;
+        canvas2DContext.lineWidth   =   strokeWidth * 2;
+        canvas2DContext.stroke();
+    }
+</script>
+
+<!-- event listeners -->
+<script>
+    subtractButtonElement.addEventListener("click", _ => {
+        const decreaseByStep        = Number.parseInt(subtractButtonElement.dataset.step);
+        const minimumStrokeWidth    = Number.parseInt(subtractButtonElement.dataset.min);
+        
+        if(strokeWidth ==  minimumStrokeWidth) return;
+
+        strokeWidth -= decreaseByStep;
+        updateStrokeWidth(strokeWidth);
+
+        console.log(decreaseByStep, minimumStrokeWidth, strokeWidth);
+    });
+
+    increaseButtonElement.addEventListener("click", _ => {
+        const increaseByStep        = Number.parseInt(increaseButtonElement.dataset.step);
+        const maximumStrokeWidth    = Number.parseInt(increaseButtonElement.dataset.max);
+
+        if(strokeWidth == maximumStrokeWidth) return;
+
+        strokeWidth += increaseByStep;
+        updateStrokeWidth(strokeWidth);
+    
+        console.log(increaseByStep, maximumStrokeWidth, strokeWidth);
+    });
+
+    colorPickerElement.addEventListener("change", changeEvent => {
+        brushColor = changeEvent.target.value;
+    });
+
+    
+    closeButtonElement.addEventListener("click", _ => {
+        canvas2DContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    });
+
+    document.addEventListener("DOMContentLoaded", _ => {
+        canvasElement         =     document.getElementById("Canvas");
+        canvas2DContext       =     canvasElement.getContext("2d");
+        canvasElementOffsetLeft = canvasElement.offsetLeft;
+
+        canvasElement.addEventListener("mousedown", mouseEvent => {
+            pathStartX  =   mouseEvent.offsetX;
+            pathStartY    =   mouseEvent.offsetY;
+            mouseDown   = true;
+        });
+        
+        canvasElement.addEventListener("mouseup", mouseEvent => {
+            pathStartX  =   null;
+            pathStartY    =   null;
+            mouseDown   = false;
+        });
+
+        canvasElement.addEventListener("mouseleave", mouseEvent => {
+            pathStartX  =   null;
+            pathStartY    =   null;
+            mouseDown   = false;
+        });
+        
+        canvasElement.addEventListener("mousemove", mouseEvent => {
+            if(mouseDown) {
+                // drawCircles(mouseEvent.offsetX, mouseEvent.offsetY);
+                const offsetX = mouseEvent.offsetX;
+                const offsetY = mouseEvent.offsetY;
+
+                drawCircles(offsetX, offsetY);
+                drawLine(pathStartX, pathStartY, offsetX, offsetY);
+
+                pathStartX = offsetX;
+                pathStartY = offsetY;
+            }
+        });
+    });
+
+
+</script>
+</html>

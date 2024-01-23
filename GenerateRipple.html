@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Ripple Effect</title>
+</head>
+<body>
+    <button class="Button">
+        Generate Ripple
+    </button>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    @import url(./MaterialDesignLightTheme.css);
+
+    * {
+        border : 0;
+        margin : 0;
+        border : 0;
+        padding : 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height : 100vh;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: var(--lightColorSurface);
+    }
+
+    .Button {
+        width : 480px;
+        height : 124px;
+
+        font-family         : "Roboto", sans-serif;
+        font-size           : 32px;
+        line-height         : 48px;
+        color               : var(--lightColorPrimaryOn);
+        
+        background-color    : var(--lightColorPrimary);
+        position: relative;
+
+        overflow: hidden;
+
+        /* &::before {
+            content     : "";
+            position    : absolute;
+            width       :   48px;
+            height      :   48px;
+            background-color: rgba(240, 248, 255, 0.243);
+            top             : 0;
+            left            : 0;
+            border-radius   : 50%;
+            transition-duration     : .5s
+        } */
+
+        /* &:hover::before {
+            width : 480px;
+            height : 480px;
+            background-color: var(--lightColorPrimaryOn);
+            opacity: 0;
+        } */
+        /* &:hover .Ripple {
+            width : 480px;
+            height : 480px;
+            background-color: var(--lightColorPrimaryOn);
+            opacity: 0;
+        } */
+    }
+
+    .Ripple {
+        position                : absolute;
+        width                   : 8px;
+        height                  : 8px;
+        background-color        : rgba(240, 248, 255, 0.243);
+        top                     : 0;
+        left                    : 0;
+        border-radius           : 50%;
+        transition-duration     : .5s
+    }
+</style>
+
+<script>
+    function createRipple(){
+        const span = document.createElement("span");
+        span.classList.add("Ripple");
+
+        return span;
+    }
+</script>
+<!-- constants and variables -->
+<script>
+
+    const button = document.querySelector("button");
+    console.log(button);
+
+    button.addEventListener("click", mouseEvent => {
+        let offsetX = mouseEvent.offsetX;
+        let offsetY = mouseEvent.offsetY;
+
+        const rippleSpan = createRipple();
+        rippleSpan.style.left   =   offsetX + 'px';
+        rippleSpan.style.top    =   offsetY + 'px';
+
+        button.appendChild(rippleSpan);
+
+        const animationEffect = new KeyframeEffect(rippleSpan, [
+            {
+                width   : "480px",
+                height  : "480px",
+            },
+        ], {duration : 400});
+        
+        const animation =   new Animation(animationEffect, document.timeline);
+        animation.finished.then(_ => rippleSpan.remove());
+        animation.play();
+
+    });
+
+</script>
+
+</html>

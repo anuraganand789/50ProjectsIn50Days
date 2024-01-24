@@ -1,0 +1,57 @@
+:root {
+
+    --colorWhiteClassic     :   #FFFFFF;
+    --colorWhiteOff         :   #FCF6F5;
+    
+    --colorCoral            :   #F96167;
+    --colorBubbleGumPink    :   #EA738D;
+    --colorRaspberry        :   #8A307F;
+    
+    --colorBlueClassic      :   #00008B;
+    --colorBlue             :   #2F3C7E;
+    --colorRoyalBlue        :   #00539C;
+    --colorElectricBlue     :   #4831D4;
+    --colorBabyBlue         :   #8AAAE5;
+    --colorLightBlue        :   #ADD8E6;
+    --colorSkyBlue          :   #89ABE3;
+    --colorBlueMuted1       :   #79A7D3;
+    --colorBlueMuted2       :   #6883BC;
+    
+    
+    --colorCharcoal         :   #101820;
+    --colorLimeGreen        :   #CCF381;
+    --colorForestGreen      :   #3A6B35;
+    --colorMossGreen        :   #97BC62;
+    --colorIslandGreen      :   #2BAE66;
+    --colorVerdantGreen     :   #2C5F2D;
+    --colorNeonGreen        :   #99F443;
+    --colorYellowClassic    :   #FEE715;
+    --colorMustard          :   #E3B448;
+    --colorSage             :   #CBD18F;
+    
+    --colorLavender         :   #E2D1F9;
+    --colorTeal             :   #317773;
+    --colorLightTeal        :   #A7BEAE;
+    
+    --colorCherryRed        :   #990011;
+    
+    --colorHotPink          :   #FF69B4;
+    --colorCyan             :   #00FFFF;
+    
+    --colorFuchisa          :   #EC449B;
+    --colorPastelOrange     :   #FFA351;
+    --colorCustard          :   #EED971;
+    
+    --colorPeach1           :   #EEA47F;
+    --colorPeach2           :   #FBEAEB;
+    --colorPeach3           :   #FFBE7B;
+
+    --colorLightPurple      :   #AA96DA;
+    --colorMint             :   #C5FAD5;
+    --colorButter           :   #FFFFD2;
+
+    --colorBeige            :   #DDC3A5;
+    --colorBlack            :   #000;
+    --colorBlackBrown       :   #201E20;
+    --colorTan              :   #E0A96D;
+}

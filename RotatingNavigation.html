@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Navigation</title>
+</head>
+<body class="Container" id="Container">
+    <!-- <div class="Container" id="Container"> -->
+        <div class="Hidden" id="HiddenPart">
+            <ul class="Menu" id="Menu">
+                <li class="MenuItem"><i class="fa-solid fa-house"></i> <span>Home</span></li>
+                <li class="MenuItem"><i class="fa-solid fa-user"></i> <span>About</span></li>
+                <li class="MenuItem"><i class="fa-solid fa-address-card"></i> <span>Contact</span></li>
+            </ul>
+        </div>
+        <article class="Shown" id="ShownPart">
+                <h2>Some Article Header</h2>
+                <h5>anurag anand</h5>
+
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor corporis sint neque sapiente mollitia possimus accusamus at officiis voluptatem iure repellendus, illo nemo alias sequi modi debitis commodi deserunt eius.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor corporis sint neque sapiente mollitia possimus accusamus at officiis voluptatem iure repellendus, illo nemo alias sequi modi debitis commodi deserunt eius.
+                </p>
+
+
+                <figure>
+                    <figcaption>Sci Fi</figcaption>
+                    <img src="ExMachina.png" alt="">
+                </figure>
+        </article>
+    <!-- </div> -->
+
+    <button class="RotateButton" id="RotateButton"><i class="fa-solid fa-bars"></i></button>
+</body>
+<style>
+
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css);
+    @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap);
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    @import url(./Colors.css);
+
+    * {
+        border : 0;
+        margin : 0;
+        border : 0;
+        padding : 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height : 100vh;
+        font-family: "Roboto", sans-serif;
+        transition-duration: .4s;
+        transform-origin : top left;
+        overflow: hidden;
+        position: relative;
+        background-color: var(--colorBlackBrown);
+    }
+    
+    .Hidden {
+        position: absolute;
+        display: inline-block;
+        width : 19%;
+        margin-left : -19%;
+        height : 90%;
+        transition-duration : .4s;
+        
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        
+        & ul {
+            list-style-type: none;
+            
+            & li {
+                color : var(--colorWhiteClassic);
+                span {
+                    font-size: 24px;
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
+    
+    .Shown {
+        display : inline-block;
+        width   : 100%;
+        height  : 120%;
+        display : flex;
+        align-items     :   center;
+        flex-direction  :   column;
+        gap: 24px;
+        color : var(--colorBlackBrown);
+        background-color: var(--colorPeach2);
+        transition-duration : .4s;
+        
+        & p {
+            width: 70%;
+        }
+        
+        & figure {
+
+            & figcaption {
+                font-size: 24px;
+                color : var(--colorBlackBrown);
+            }
+
+            & img {
+                border-radius: 16px;
+            }
+        }
+    }
+
+    .RotateButton {
+        width   :   160px;
+        height  :   160px;
+
+        background-color: var(--colorBubbleGumPink);
+        color : var(--colorWhiteClassic);
+        font-size: 32px;
+
+        z-index: 9999;
+        position: fixed;
+        top : -90px;
+        left : -90px;
+        border-radius: 50%;
+        transition-duration : .4s;
+        cursor: pointer;
+        outline: none;
+
+        & i {
+            transition : .4s;
+            width: 100%;
+        }
+
+        &:hover {
+            top     : -40px;
+            left    : -40px;
+            width   : 180px;
+            height  : 180px;
+        }
+
+    }
+
+    .Container {
+        transition : .4s;
+    }
+
+    .Rotate {
+        transform : rotate(-17deg);
+    }
+
+    .UndoRotate {
+        transform : rotate(17deg);
+    }
+
+</style>
+
+<script>
+    const container     =   document.getElementById("Container");
+    const menuElement   =   document.getElementById("Menu");
+    const hiddenPart    =   document.getElementById("HiddenPart");
+    const shownPart     =   document.getElementById("ShownPart");
+    const rotateButton  =   document.getElementById("RotateButton");
+    const buttonIcon    =   rotateButton.querySelector("i");
+
+    rotateButton.addEventListener("click", _ => {
+        container.classList.toggle("Rotate");
+        menuElement.classList.toggle("UndoRotate");
+
+        buttonIcon.classList.toggle("fa-bars");
+        buttonIcon.classList.toggle("fa-square-xmark");
+    });
+
+</script>
+</html>
